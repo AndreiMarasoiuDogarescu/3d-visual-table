@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import ShapeTable from './components/ShapeTable';
+import Canvas3D from './components/Canvas3D';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [shapes, setShapes] = useState([]);
+    const [showCanvas, setShowCanvas] = useState(false);
+    const [currentShape, setCurrentShape] = useState(null);
+
+    useEffect(() => {
+        const savedShapes = JSON.parse(localStorage.getItem('shapes'));
+        if (savedShapes) {
+            setShapes(savedShapes);
+        }
+    }, []);
+
+    return (
+        <div>
+            {!showCanvas && (
+                <ShapeTable shapes={shapes} setShapes={setShapes} setShowCanvas={setShowCanvas} setCurrentShape={setCurrentShape} />
+            )}
+            {showCanvas && (
+                <Canvas3D shapes={shapes} setShowCanvas={setShowCanvas} currentShape={currentShape} />
+            )}
+        </div>
+    );
+};
 
 export default App;
