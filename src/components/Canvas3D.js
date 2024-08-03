@@ -8,36 +8,47 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
     useEffect(() => {
         const mount = mountRef.current;
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, mount.clientWidth / mount.clientHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(mount.clientWidth, mount.clientHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight);
         mount.appendChild(renderer.domElement);
 
-        // Add the current shape to the scene
-        let shape;
-        if (currentShape) {
-            if (currentShape.type === 'cube') {
+        shapes.forEach(shapeData => {
+            let shape;
+            console.log('Shape type:', shapeData.type); // Debug log
+
+            if (shapeData.type === 'cube') {
                 const geometry = new THREE.BoxGeometry();
-                const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                const material = new THREE.MeshBasicMaterial({ color: shapeData.color || 0x00ff00 });
                 shape = new THREE.Mesh(geometry, material);
-            } else if (currentShape.type === 'sphere') {
+            } else if (shapeData.type === 'sphere') {
                 const geometry = new THREE.SphereGeometry();
-                const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                const material = new THREE.MeshBasicMaterial({ color: shapeData.color || 0x00ff00 });
+                shape = new THREE.Mesh(geometry, material);
+            } else if (shapeData.type === 'cylinder') {
+                const geometry = new THREE.CylinderGeometry(1, 1, 2, 32);
+                const material = new THREE.MeshBasicMaterial({ color: shapeData.color || 0x00ff00 });
+                shape = new THREE.Mesh(geometry, material);
+            } else if (shapeData.type === 'cone') {
+                const geometry = new THREE.ConeGeometry(1, 2, 32);
+                const material = new THREE.MeshBasicMaterial({ color: shapeData.color || 0x00ff00 });
                 shape = new THREE.Mesh(geometry, material);
             }
+
             if (shape) {
+                shape.position.set(0, 0, 0); // Ensure the shape is positioned within the view
                 scene.add(shape);
+                shape.userData = { name: shapeData.name };
+                shape.callback = () => {
+                    alert(`Shape: ${shapeData.name}`);
+            };
             }
-        }
+        });
 
         camera.position.z = 5;
 
         const animate = () => {
             requestAnimationFrame(animate);
-            if (shape) {
-                shape.rotation.x += 0.01;
-                shape.rotation.y += 0.01;
-            }
             renderer.render(scene, camera);
         };
         animate();
@@ -45,7 +56,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
         return () => {
             mount.removeChild(renderer.domElement);
         };
-    }, [currentShape]);
+    }, [shapes, currentShape]);
 
     return (
         <div>

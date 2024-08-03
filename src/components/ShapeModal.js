@@ -26,6 +26,8 @@ const ShapeModal = ({ shapes, setShapes, showModal, setShowModal }) => {
                 <Select name="type" value={shape.type} onChange={handleChange} fullWidth margin="dense">
                     <MenuItem value="cube">Cube</MenuItem>
                     <MenuItem value="sphere">Sphere</MenuItem>
+                    <MenuItem value="cylinder">Cylinder</MenuItem>
+                    <MenuItem value="cone">Cone</MenuItem>
                 </Select>
                 <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
                 <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
@@ -41,7 +43,6 @@ const modalStyle = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
