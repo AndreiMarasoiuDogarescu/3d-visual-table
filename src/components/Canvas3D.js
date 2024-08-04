@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls";
 import { Button } from "@mui/material";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import Tooltip from "./Tooltip";
 
 const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   const mountRef = useRef(null);
@@ -26,9 +27,6 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
     orbitControls.dampingFactor = 0.25;
     orbitControls.screenSpacePanning = false;
     orbitControls.maxPolarAngle = Math.PI / 2;
-
-
-    // Ray
 
     // Shape Name
     const createTextSprite = (text) => {
@@ -86,17 +84,21 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
         shape.add(textSprite);
       }
 
+      
       camera.position.z = 10;
-      const transformControls = new TransformControls(camera, renderer.domElement);
+      const transformControls = new TransformControls(
+        camera,
+        renderer.domElement
+      );
       transformControls.attach(shape);
       transformControls.visible = false;
       scene.add(transformControls);
-      
+
       // Toggle TransformControls visibility
       const toggleControlsVisibility = () => {
         transformControls.visible = !transformControls.visible;
       };
-      
+
       // Add event listeners for TransformControls
       window.addEventListener("keydown", function (event) {
         switch (event.code) {
@@ -109,19 +111,17 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
           case "KeyS":
             transformControls.setMode("scale");
             break;
+          case "KeyH":
+            toggleControlsVisibility();
+            break;
         }
       });
-      
+
       // Enable/Disable OrbitControls based on TransformControls state
-      transformControls.addEventListener('dragging-changed', function (event) {
+      transformControls.addEventListener("dragging-changed", function (event) {
         orbitControls.enabled = !event.value;
       });
-      
-      // Toggle TransformControls visibility on click
-      renderer.domElement.addEventListener("click", () => {
-        toggleControlsVisibility();
-      });
-      
+
       // Handle window resize
       window.addEventListener("resize", onWindowResize, false);
       function onWindowResize() {
@@ -166,6 +166,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
       >
         X
       </Button>
+      <Tooltip />
       <div ref={mountRef} style={{ width: "100%", height: "100%" }} />
     </div>
   );
