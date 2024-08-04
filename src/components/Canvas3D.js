@@ -148,7 +148,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   }, [shapes, currentShape]);
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", zIndex: 1000 }}>
       <Button
         variant="contained"
         color="secondary"

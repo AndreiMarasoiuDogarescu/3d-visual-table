@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# 3D Visual Table
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project allows users to create shapes and render them in the 3D Canvas. Each creation is saved in local storage and will appear in the table. Users can interact with the shapes they created via the camera + transformation controls provided by Three JS's transformControls and orbitControls plugins. Users have the option to render their created shapes either one at a time or render all created shapes.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Getting Started](#getting-started)
+- [Components](#components)
+- [Styling](#styling)
+- [Learn More](#learn-more)
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) + [Three JS](https://threejs.org) and components from [MaterialUI](https://mui.com/).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Installation
 
-### `npm run build`
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/your-username/3d-visual-table.git
+    cd 3d-visual-table
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install the dependencies:
+    ```sh
+    npm install
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Running the App
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To run the app in development mode, use:
+```sh
+npm start
 
-### `npm run eject`
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Components
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I created separate components for a better folder structure and overall cleaner code. 
+The main components of the application include:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **ShapeTable**: This component is responsible for displaying the table of shapes. It includes functionalities for adding and deleting shapes.
+- **ShapeModal**: This component is a modal dialog used for creating new shapes. It includes form fields for shape properties such as name and type.
+- **Canvas3D**: This component renders the 3D scene using Three.js. It handles the creation and manipulation of 3D objects and integrates with the rest of the application to reflect changes in the shape data.
+- **Tooltip**: This component provides additional information when rendering the shape/shapes such as keyboard shortcuts. It enhances the user experience by offering contextual help and details.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Styling 
 
-## Learn More
+I used a mix of inline styling and CSS page styling (see App.css).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Learn More
 
-### Code Splitting
+To learn more about React and Three.js, check out the following resources: 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [React Documentation](https://reactjs.org/docs/getting-started.html)
+- [Three.JS Documentation](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
+- [Three.JS Course](https://www.youtube.com/watch?v=xJAfLdUgdc4&list=PLjcjAqAnHd1EIxV4FSZIiJZvsdrBc1Xho)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

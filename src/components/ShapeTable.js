@@ -3,6 +3,7 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import Canvas3D from "./Canvas3D";
 import ShapeModal from "./ShapeModal";
 import "../App.css";
+import { div } from "three/webgpu";
 
 const ShapeTable = ({ shapes, setShapes }) => {
   const [showCanvas, setShowCanvas] = useState(false);
@@ -21,9 +22,10 @@ const ShapeTable = ({ shapes, setShapes }) => {
   };
 
   return (
+    <div className="wrapper">
     <div className="table-container">
-      {!showCanvas ? (
-        <TableContainer component={Paper} className="centered-table">
+    {!showCanvas ? (
+      <TableContainer component={Paper} className="centered-table">
           <div className="mbutton-container">
           <Button
             variant="contained"
@@ -92,6 +94,7 @@ const ShapeTable = ({ shapes, setShapes }) => {
           currentShape={currentShape}
         />
       )}
+    </div>
     </div>
   );
 };

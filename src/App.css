@@ -37,7 +37,17 @@
   }
 }
 
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+.table-container {
+  width: 80%;
+
+}
 
 .centered-table {
   margin: 0 auto;
