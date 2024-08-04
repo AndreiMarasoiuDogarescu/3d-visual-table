@@ -36,3 +36,41 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+.centered-table {
+  margin: 0 auto;
+  width: 80%;
+  border-collapse: collapse;
+}
+
+.centered-table th, .centered-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.mbutton-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.mbutton-container button {
+  margin-left: 10px;
+}
+
+.centered-table button {
+  margin-left: 10px;
+}
+
+.modal-container {
+  display: flex;
+  justify-content: end;
+}
+
+.modal-button button {
+  margin-top: 10px;
+  margin-left: 10px;
+}

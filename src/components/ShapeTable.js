@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import Canvas3D from "./Canvas3D";
 import ShapeModal from "./ShapeModal";
+import "../App.css";
 
 const ShapeTable = ({ shapes, setShapes }) => {
   const [showCanvas, setShowCanvas] = useState(false);
@@ -20,9 +21,10 @@ const ShapeTable = ({ shapes, setShapes }) => {
   };
 
   return (
-    <div>
+    <div className="table-container">
       {!showCanvas ? (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} className="centered-table">
+          <div className="mbutton-container">
           <Button
             variant="contained"
             color="primary"
@@ -40,6 +42,7 @@ const ShapeTable = ({ shapes, setShapes }) => {
           >
             Render All
           </Button>
+          </div>
           <Table>
             <TableHead>
               <TableRow>

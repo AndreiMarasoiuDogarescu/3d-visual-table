@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Box, Button, TextField, Select, MenuItem } from '@mui/material';
+import '../App.css';
 
 const ShapeModal = ({ shapes, setShapes, showModal, setShowModal }) => {
     const [shape, setShape] = useState({ name: '', type: 'cube' });
@@ -19,9 +20,9 @@ const ShapeModal = ({ shapes, setShapes, showModal, setShowModal }) => {
     };
 
     return (
-        <Modal open={showModal} onClose={handleClose}>
+        <Modal open={showModal} onClose={handleClose} className='modal-button'>
             <Box sx={{ ...modalStyle }}>
-                <h2>Create a New Shape</h2>
+                <h2>Create Modal</h2>
                 <TextField name="name" label="Name" onChange={handleChange} fullWidth margin="dense" />
                 <Select name="type" value={shape.type} onChange={handleChange} fullWidth margin="dense">
                     <MenuItem value="cube">Cube</MenuItem>
@@ -29,8 +30,10 @@ const ShapeModal = ({ shapes, setShapes, showModal, setShowModal }) => {
                     <MenuItem value="cylinder">Cylinder</MenuItem>
                     <MenuItem value="cone">Cone</MenuItem>
                 </Select>
+                <div className='modal-container'>
                 <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
                 <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
+                </div>
             </Box>
         </Modal>
     );
