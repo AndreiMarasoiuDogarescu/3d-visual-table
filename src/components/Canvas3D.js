@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls";
 import { Button } from "@mui/material";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   const mountRef = useRef(null);
@@ -20,8 +20,17 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     mount.appendChild(renderer.domElement);
 
-    new OrbitControls(camera, renderer.domElement);
+    // OrbitControls
+    const orbitControls = new OrbitControls(camera, renderer.domElement);
+    orbitControls.enableDamping = true;
+    orbitControls.dampingFactor = 0.25;
+    orbitControls.screenSpacePanning = false;
+    orbitControls.maxPolarAngle = Math.PI / 2;
 
+
+    // Ray
+
+    // Shape Name
     const createTextSprite = (text) => {
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
@@ -78,33 +87,42 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
       }
 
       camera.position.z = 10;
-      const controls = new TransformControls(camera, renderer.domElement);
-      controls.attach(shape);
-      controls.visible = false;
-      scene.add(controls);
-
+      const transformControls = new TransformControls(camera, renderer.domElement);
+      transformControls.attach(shape);
+      transformControls.visible = false;
+      scene.add(transformControls);
+      
+      // Toggle TransformControls visibility
       const toggleControlsVisibility = () => {
-        controls.visible = !controls.visible;
+        transformControls.visible = !transformControls.visible;
       };
-
+      
+      // Add event listeners for TransformControls
       window.addEventListener("keydown", function (event) {
         switch (event.code) {
           case "KeyG":
-            controls.setMode("translate");
+            transformControls.setMode("translate");
             break;
           case "KeyR":
-            controls.setMode("rotate");
+            transformControls.setMode("rotate");
             break;
           case "KeyS":
-            controls.setMode("scale");
+            transformControls.setMode("scale");
             break;
         }
       });
-
+      
+      // Enable/Disable OrbitControls based on TransformControls state
+      transformControls.addEventListener('dragging-changed', function (event) {
+        orbitControls.enabled = !event.value;
+      });
+      
+      // Toggle TransformControls visibility on click
       renderer.domElement.addEventListener("click", () => {
         toggleControlsVisibility();
       });
-
+      
+      // Handle window resize
       window.addEventListener("resize", onWindowResize, false);
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
