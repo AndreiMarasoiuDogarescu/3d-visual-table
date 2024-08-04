@@ -9,7 +9,6 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   useEffect(() => {
     const mount = mountRef.current;
     const scene = new THREE.Scene();
-    scene.add(new THREE.AxesHelper(5))
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -20,29 +19,31 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     mount.appendChild(renderer.domElement);
     
+
+    
     shapes.forEach((shapeData) => {
         let shape;      
         if (shapeData.type === "cube") {
         const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshNormalMaterial({
           color: shapeData.color || 0xffffff,
         });
         shape = new THREE.Mesh(geometry, material);
       } else if (shapeData.type === "sphere") {
         const geometry = new THREE.SphereGeometry();
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshNormalMaterial({
           color: shapeData.color || 0xffffff,
         });
         shape = new THREE.Mesh(geometry, material);
       } else if (shapeData.type === "cylinder") {
         const geometry = new THREE.CylinderGeometry(1, 1, 2, 32);
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshNormalMaterial({
           color: shapeData.color || 0xffffff,
         });
         shape = new THREE.Mesh(geometry, material);
       } else if (shapeData.type === "cone") {
         const geometry = new THREE.ConeGeometry(1, 2, 32);
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshNormalMaterial({
           color: shapeData.color || 0x00ff00,
         });
         shape = new THREE.Mesh(geometry, material);
