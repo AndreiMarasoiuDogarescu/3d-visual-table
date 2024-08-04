@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls";
 import { Button } from "@mui/material";
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   const mountRef = useRef(null);
@@ -18,12 +19,26 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     mount.appendChild(renderer.domElement);
-    
 
-    
+    new OrbitControls(camera, renderer.domElement)
+
+    const createTextSprite = (text) => {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      context.font = "Bold 20px Arial";
+      context.fillStyle = "rgba(255,255,255,1)";
+      context.fillText(text, 0, 20);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+      const sprite = new THREE.Sprite(spriteMaterial);
+      sprite.scale.set(2, 1, 1);
+      return sprite;
+    };
+
     shapes.forEach((shapeData) => {
-        let shape;      
-        if (shapeData.type === "cube") {
+      let shape;
+      if (shapeData.type === "cube") {
         const geometry = new THREE.BoxGeometry();
         const material = new THREE.MeshNormalMaterial({
           color: shapeData.color || 0xffffff,
@@ -56,52 +71,60 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
         shape.callback = () => {
           alert(`Shape: ${shapeData.name}`);
         };
+
+        const textSprite = createTextSprite(shapeData.name);
+        textSprite.position.set(0, 1.5, 0); // Position the text above the shape
+        shape.add(textSprite);
       }
-      
+
+
+
       camera.position.z = 5;
       const controls = new TransformControls(camera, renderer.domElement);
-        controls.attach(shape);
-        scene.add(controls);
-        window.addEventListener('keydown', function (event) {
-            switch (event.code) {
-                case 'KeyG':
-                    controls.setMode('translate')
-                    break
-                case 'KeyR':
-                    controls.setMode('rotate')
-                    break
-                case 'KeyS':
-                    controls.setMode('scale')
-                    break
-            }
-        })
-        
-        window.addEventListener('resize', onWindowResize, false)
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight
-            camera.updateProjectionMatrix()
-            renderer.setSize(window.innerWidth, window.innerHeight)
-            render()
-        }
-        
+      controls.attach(shape);
+      controls.visible = false;
+      scene.add(controls);
 
-        
-        function animate() {
-            requestAnimationFrame(animate)
-        
-            // controls.update()
-        
-            render()
-        
-      }
-        
-        function render() {
-            renderer.render(scene, camera)
+      const toggleControlsVisibility = () => {
+        controls.visible = !controls.visible;
+      };
+
+      window.addEventListener("keydown", function (event) {
+        switch (event.code) {
+          case "KeyG":
+            controls.setMode("translate");
+            break;
+          case "KeyR":
+            controls.setMode("rotate");
+            break;
+          case "KeyS":
+            controls.setMode("scale");
+            break;
         }
-        
-        animate()
+      });
+
+      renderer.domElement.addEventListener("click", () => {
+        toggleControlsVisibility();
+      });
+
+      window.addEventListener("resize", onWindowResize, false);
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        render();
+      }
+
+      function render() {
+        renderer.render(scene, camera);
+      }
+
+      animate();
     });
-        
 
     return () => {
       mount.removeChild(renderer.domElement);
@@ -109,13 +132,23 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   }, [shapes, currentShape]);
 
   return (
-    <div>
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <Button
         variant="contained"
         color="secondary"
         onClick={() => setShowCanvas(false)}
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+          minWidth: "40px",
+          padding: "0",
+        }}
       >
-        Close
+        X
       </Button>
       <div ref={mountRef} style={{ width: "100%", height: "100%" }} />
     </div>
