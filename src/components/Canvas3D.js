@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls";
 import { Button } from "@mui/material";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
   const mountRef = useRef(null);
@@ -20,7 +20,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     mount.appendChild(renderer.domElement);
 
-    new OrbitControls(camera, renderer.domElement)
+    new OrbitControls(camera, renderer.domElement);
 
     const createTextSprite = (text) => {
       const canvas = document.createElement("canvas");
@@ -36,7 +36,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
       return sprite;
     };
 
-    shapes.forEach((shapeData) => {
+    shapes.forEach((shapeData, index) => {
       let shape;
       if (shapeData.type === "cube") {
         const geometry = new THREE.BoxGeometry();
@@ -65,7 +65,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
       }
 
       if (shape) {
-        shape.position.set(0, 0, 0); // Ensure the shape is positioned within the view
+        shape.position.set(index * 3, 0, 0); // Position the shapes next to each other
         scene.add(shape);
         shape.userData = { name: shapeData.name };
         shape.callback = () => {
@@ -77,9 +77,7 @@ const Canvas3D = ({ shapes, setShowCanvas, currentShape }) => {
         shape.add(textSprite);
       }
 
-
-
-      camera.position.z = 5;
+      camera.position.z = 10;
       const controls = new TransformControls(camera, renderer.domElement);
       controls.attach(shape);
       controls.visible = false;
